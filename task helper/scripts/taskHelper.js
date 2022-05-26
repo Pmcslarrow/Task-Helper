@@ -1,5 +1,7 @@
 /* taskHelper.js */
 
+
+
 /* DOM OBJECTS */
 let taskButton = document.getElementById("inputButton");
 let priorityButton = document.getElementById("priorityButton");
@@ -7,12 +9,14 @@ let container = document.getElementsByClassName("container");
 let content = document.getElementById("content");
 let priorityList = document.getElementById("LIST");
 let button = document.getElementById("bb");
+let card_list = document.getElementById("card_list");
 
 
 /* GLOBAL VARIABLES */
 let list_of_values = [];
 let copy = null;
 let contentPointer = 0;
+let numberOfCards = 0;
 let currentValue = null;
 let currentPriority = null;
 
@@ -51,7 +55,7 @@ priorityButton.addEventListener("keypress", function(e){
     }
 })
 
-button.addEventListener("click", flush);
+button.addEventListener("click",start);
     
 
 
@@ -71,13 +75,71 @@ function isComplete ( value, priority )
     }
 }
 
+function start()
+{
+    if (button.getAttribute("state") === "on")
+    {
+        button.setAttribute("state", "off");
+        button.innerHTML = "BUILD SCHEDULE";
+        resetAll();
+    } else {
+        button.setAttribute("state", "on");
+        button.innerHTML = "Click to Reset All";
+        flush();
+    }
+    
+}
+
+function resetAll()
+{
+    list_of_values = [];
+    copy = null;
+    contentPointer = 0;
+    numberOfCards = 0;
+    currentValue = null;
+    currentPriority = null;
+
+    instance.resetHeap();
+    clearScreen();
+    console.log("RESET LIST:", instance._heapData);
+}
+
+function clearScreen()
+{
+    card_list.innerHTML = "";
+}
+
+
+
+/* Deletes the root node from the heap and then places the value onto the screen */
 function flush()
 {
     let SIZE = instance._heapData.length;
     let value = instance.delete();
-    let li = document.createElement('li');
-    li.innerHTML =" Priority (" + value.priorityNumber + ")" + "   " + "Task:  " +  value.taskString;
-    priorityList.appendChild(li);
+
+    console.log(SIZE);
+
+    let article = document.createElement('article');
+    article.setAttribute("class", "card");
+    let header = document.createElement("header");
+    header.setAttribute("id", "content" + numberOfCards.toString());
+    let h2_pri = document.createElement("h2");
+    h2_pri.innerHTML = "Priority:";
+    let h2_task = document.createElement("h2");
+    h2_task.innerHTML = "Task:";
+    let p_pri = document.createElement("p");
+    p_pri.innerHTML = value.priorityNumber;
+    let p_task = document.createElement("p");
+    p_task.innerHTML = value.taskString;
+
+    h2_pri.appendChild(p_pri);
+    h2_task.appendChild(p_task);
+    article.appendChild(header);
+    header.appendChild(h2_pri);
+    header.appendChild(h2_task);
+    card_list.appendChild(article);
+
+    numberOfCards += 1;
 
     if (SIZE === 1)
     {
@@ -105,6 +167,11 @@ class Heap{
     get last_node()
     {
         return this._heapData[-1];
+    }
+
+    resetHeap()
+    {
+        this._heapData = [];
     }
 
     left_child_index( index )

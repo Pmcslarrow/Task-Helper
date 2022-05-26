@@ -1,20 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap');
+
+body {
+    font-family: 'DM Mono', monospace;
+}
+
 .container {
     display: grid;
-    height: 100vh;
-    grid-template-columns: 0.8fr .8fr 0.8fr 0.8fr 0.8fr;
-    grid-template-rows: 0.1fr 0.05fr 0.4fr 0.35fr 0.10fr;         
+    height: 250px;
+    grid-template-columns: 0.2fr .2fr 0.2fr 0.2fr 0.2fr;
+    grid-template-rows: 0.1fr 0.15fr;        
     grid-template-areas: 
     "nav nav nav nav nav"
     "task task button priority priority"
-    "content content content content content"
-    "content content content content content"
-    "footer footer footer footer footer"
     ;
     grid-gap: 0.1rem;
 }
 
 nav {
     background-color: rgb(0, 0, 0);
+    border-radius: 10px;
+    margin: 5px;
+    box-shadow: -0.5rem 0.5rem 0.5rem rgb(44, 44, 44);
     grid-area: nav;
 }
 
@@ -37,33 +43,80 @@ li:hover {
 #taskInput {
     background-color:dimgrey;
     grid-area: task;
-    text-align: center;    
+    text-align: center;  
+    border-radius: 10px;
+    margin: 5px;
+    box-shadow: -0.5rem 0.5rem 0.5rem rgb(44, 44, 44);  
 }
 
 #inputButton, #priorityButton, #bb {
     position: relative;
-    top: 25%;
+    
 }
 
 #priorityInput {
     background-color:dimgrey;
     grid-area: priority;
     text-align: center;
+    border-radius: 10px;
+    margin: 5px;
+    box-shadow: -0.5rem 0.5rem 0.5rem rgb(44, 44, 44);
 }
 
-#content {
-    background-color: khaki;
-    grid-area: content;
-}
 
 #button {
     background-color:dimgrey;
     text-align: center;
     grid-area: button; 
+    border-radius: 10px;
+    margin: 5px;
+    box-shadow: -0.5rem 0.5rem 0.5rem rgb(44, 44, 44);
+}
+
+button {
+    border-radius: 10px;
+}
+
+input {
+    border-radius: 10px;
+}
+
+
+
+/* Card CSS (HELP FROM YOUTUBE VIDEO WHICH HELPED TEACH ME TRANSITIONS AND EFFECTS)*/
+
+.card{
+    color: white;
+    display: inline-flex;
+    position: relative;
+    flex-direction: column;
+    height: 350px;
+    width: 400px;
+    min-width: 250px;
+    padding: 1.5rem;
+
+    border-radius: 16px;
+    background: #171717;
+    box-shadow: -1rem 0 3rem black;
+
+    transition: 0.2s;
+}
+
+.card_list {
+    display: inline-flex;
+    padding: 3rem;
+    overflow-x: scroll;
+}
+
+.card:hover {
+    transform: translateY(-1rem);
 
 }
 
-footer {
-    background-color: rgb(0, 0, 0);
-    grid-area: footer;
+.card:hover~card {
+    transform: translateX(130px);
+}
+
+.card:not(:first-child){
+    margin-left: -130px;
 }
