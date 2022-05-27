@@ -1,7 +1,5 @@
 /* taskHelper.js */
 
-
-
 /* DOM OBJECTS */
 let taskButton = document.getElementById("inputButton");
 let priorityButton = document.getElementById("priorityButton");
@@ -10,6 +8,12 @@ let content = document.getElementById("content");
 let priorityList = document.getElementById("LIST");
 let button = document.getElementById("bb");
 let card_list = document.getElementById("card_list");
+let red = document.getElementById("red");
+let blue = document.getElementById("blue");
+let green = document.getElementById("green");
+let defaul = document.getElementById("default");
+let card = null;
+
 
 
 /* GLOBAL VARIABLES */
@@ -19,6 +23,7 @@ let contentPointer = 0;
 let numberOfCards = 0;
 let currentValue = null;
 let currentPriority = null;
+let active = false;
 
 /* Event Listeners */
 taskButton.addEventListener("keypress", function(e){
@@ -55,7 +60,45 @@ priorityButton.addEventListener("keypress", function(e){
     }
 })
 
+
+
 button.addEventListener("click",start);
+
+green.addEventListener("click", function(e){
+    if (active === true)
+    {
+        card.forEach(i => {
+            i.style.backgroundColor = "hsl(93, 90%, 40%)";
+        });
+    }
+})
+
+red.addEventListener("click", function(e){
+    if (active === true)
+    {
+        card.forEach(i => {
+            i.style.backgroundColor = "hsl(0, 100%, 65%)";
+        });
+    }
+})
+
+blue.addEventListener("click", function(e){
+    if (active == true)
+    {
+        card.forEach(i => {
+            i.style.backgroundColor = "hsl(216, 100%, 70%)";
+        });
+    }
+})
+
+defaul.addEventListener("click", function(e){
+    if (active == true)
+    {
+        card.forEach(i => {
+            i.style.backgroundColor = "#171717";
+        });
+    }
+})
     
 
 
@@ -81,12 +124,16 @@ function start()
     {
         button.setAttribute("state", "off");
         button.innerHTML = "BUILD SCHEDULE";
+        active = false;
         resetAll();
     } else {
         button.setAttribute("state", "on");
         button.innerHTML = "Click to Reset All";
+        active = true;
         flush();
     }
+
+    card = document.querySelectorAll('.card');
     
 }
 
@@ -101,7 +148,6 @@ function resetAll()
 
     instance.resetHeap();
     clearScreen();
-    console.log("RESET LIST:", instance._heapData);
 }
 
 function clearScreen()
@@ -110,14 +156,11 @@ function clearScreen()
 }
 
 
-
 /* Deletes the root node from the heap and then places the value onto the screen */
 function flush()
 {
     let SIZE = instance._heapData.length;
     let value = instance.delete();
-
-    console.log(SIZE);
 
     let article = document.createElement('article');
     article.setAttribute("class", "card");
@@ -131,6 +174,7 @@ function flush()
     p_pri.innerHTML = value.priorityNumber;
     let p_task = document.createElement("p");
     p_task.innerHTML = value.taskString;
+   
 
     h2_pri.appendChild(p_pri);
     h2_task.appendChild(p_task);
@@ -174,81 +218,36 @@ class Heap{
         this._heapData = [];
     }
 
-    left_child_index( index )
-    {
-        return (index * 2) + 1;
-    }
 
-    right_child_index( index )
-    {
-        return (index * 2) + 2;
-    }
-
-    parent_index( index )
-    {
-        return Math.floor((index - 1) / 2);
-    }
-
-    has_greater_child( index )
-    {
-        return (
-            (this._heapData[this.left_child_index(index)] && this._heapData[this.left_child_index(index)] > this._heapData[index])
-            ||
-            (this._heapData[this.right_child_index(index)] && this._heapData[this.right_child_index(index)] > this._heapData[index])
-        );
-    }
-
-    calculate_larger_child_index( index )
-    {
-        if (!this._heapData[this.right_child_index(index)])
-        {
-            return this.left_child_index(index);
-        }
-
-        if (this._heapData[this.right_child_index(index)] > this._heapData[this.left_child_index(index)])
-        {
-            return this.right_child_index(index);
-        } else {
-            return this.left_child_index(index);
-        }
-    }
-
-    swap (new_ind, par){
-        let temp = this._heapData[new_ind];
-        this._heapData[new_ind] = this._heapData[par];
-        this._heapData[par] = temp;
-    }
-    
-    /* 
-    Adds the new record to the end of the array and then trickles upwards if the new_node is greater than the parent node
-    */
     insert( value )
     {
+        
         this._heapData.push(value);
-        let new_node_index = this._heapData.length - 1;
-
-        if (this._heapData[this.parent_index(new_node_index)])
+        if (this._heapData.length === 1)
         {
-            while (new_node_index > 0 && this._heapData[new_node_index].priorityNumber > this._heapData[this.parent_index(new_node_index)].priorityNumber){
-                this.swap(new_node_index, this.parent_index(new_node_index));
-                new_node_index = this.parent_index(new_node_index);
+            return;
+        } else {
+            let i = this._heapData.length - 1;
+            while (i > 0)
+            {
+                if (this._heapData[i].priorityNumber < this._heapData[i - 1].priorityNumber)
+                {
+                    let temp = this._heapData[i - 1];
+                    this._heapData[i - 1] = this._heapData[i];
+                    this._heapData[i] = temp;
+                    i--;
+                } else break;
             }
         }
     }
 
     delete()
     {
-        let old_value = this._heapData[0];
-        this._heapData[0] = this._heapData.pop();
-        let trickle_index = 0;
-        while (this.has_greater_child(trickle_index))
-        {
-            let larger_child_index = this.calculate_larger_child_index(trickle_index);
-            this.swap(trickle_index, larger_child_index);
-            trickle_index = larger_child_index;
-        }
-        return old_value;
+        let value = this._heapData.pop();
+        return value;
     }
 }
 
 let instance = new Heap();
+
+

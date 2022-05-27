@@ -2,11 +2,12 @@
 
 body {
     font-family: 'DM Mono', monospace;
+    background-color: grey;
 }
 
 .container {
     display: grid;
-    height: 250px;
+    height: 180px;
     grid-template-columns: 0.2fr .2fr 0.2fr 0.2fr 0.2fr;
     grid-template-rows: 0.1fr 0.15fr;        
     grid-template-areas: 
@@ -33,10 +34,11 @@ li {
     padding: 20px;
     display: inline-block;
     vertical-align: middle;
+    border: 1px solid white;
+    transition: 0.5s;
 }
 
 li:hover {
-    background-color: white;
     color: black;
 }
 
@@ -82,8 +84,37 @@ input {
 }
 
 
-
 /* Card CSS (HELP FROM YOUTUBE VIDEO WHICH HELPED TEACH ME TRANSITIONS AND EFFECTS)*/
+
+.dot {
+    height: 30px;
+    width: 30px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 5px;
+}
+
+#green{
+    background-color: hsl(93, 90%, 40%);
+}
+
+#red {
+    background-color: hsl(0, 100%, 65%);
+}
+
+#blue {
+    background-color: hsl(216, 100%, 70%);
+}
+
+#default {
+    background-color: #171717;
+}
+
+#cards {
+    position: relative;
+    top: 100px;
+}
 
 .card{
     color: white;
@@ -109,7 +140,7 @@ input {
 }
 
 .card:hover {
-    transform: translateY(-1rem);
+    transform: translateY(-1.6rem);
 
 }
 
@@ -119,4 +150,100 @@ input {
 
 .card:not(:first-child){
     margin-left: -130px;
+}
+
+
+/* Glow Button */
+.glow_container {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: large;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.glow_container a {
+    position: relative;
+    display: inline-block;
+    padding: 15px 30px;
+    border: 2px solid greenyellow;
+    margin: 40px;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 2px;
+    color: white;
+}
+
+.glow_container a:hover{
+    color: black;
+}
+
+.glow_container a::before{
+    content: '';
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 2px;
+    background: greenyellow;
+    box-shadow: 5px -8px 0 greenyellow,
+                5px 8px 0 greenyellow;
+    
+    transition: width 0.5s, left 0.5s, height 0.5s,
+    box-shadow 0.5s;
+    transition-delay: 1s, 0.5s, 0s, 0s;
+}
+
+.glow_container a:hover::before
+{
+    width: 50%;
+    height: 100%;
+    left: -2px;
+    box-shadow: 5px 0 0 greenyellow,
+                5px 0 0 greenyellow;;
+}
+
+.glow_container a::after
+{
+    content: '';
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 2px;
+    background: greenyellow;
+    box-shadow: -5px -8px 0 greenyellow,
+                -5px 8px 0 greenyellow;
+    
+    transition: width 0.5s, right 0.5s, height 0.5s,
+    box-shadow 0.5s;
+    transition-delay: 1s, 0.5s, 0s, 0s;
+}
+
+.glow_container a:hover::after
+{
+    width: 50%;
+    height: 100%;
+    right: 3px;
+    box-shadow: 5px 0 0 greenyellow,
+                5px 0 0 greenyellow;
+}
+
+.glow_container a:hover
+{
+    transition-delay: 1.259s;
+    box-shadow: 
+    0 0 10px rgb(141, 209, 39),
+    0 0 20px rgb(141, 209, 39),
+    0 0 30px rgb(141, 209, 39),
+    0 0 40px rgb(141, 209, 39),
+    0 0 50px rgb(141, 209, 39),
+    0 0 60px rgb(141, 209, 39);
+}
+
+.glow_container a span{
+    position: relative;
+    z-index: 100;
 }

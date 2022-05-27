@@ -8,19 +8,28 @@
 
     <body>
 
-            <div class="container">
-                <nav>
-                    <ul>
-                        <li>Home</li>
-                        <li>Contact</li>
-                    </ul>
-                </nav>
-                <div id="taskInput"> <input id="inputButton" placeholder="Enter Task Due"> </div>
-                <div id="priorityInput"> <input id="priorityButton" placeholder="Enter Priority (1 - 10)"> </div>
-                <div id="button"> <button id="bb" state="off">BUILD SCHEDULE</button></div>
-            </div>
+        <div class="container">
+            <nav>
+                <div class="glow_container">
+                    <a href="#"><span>Home</span></a>
+                    <a href="./scripts/contact.html"><span>Contact</span></a>
+                </div>
+            </nav>
+            <div id="taskInput"> <input id="inputButton" placeholder="Enter Task Due"> </div>
+            <div id="priorityInput"> <input id="priorityButton" placeholder="Enter Priority (1 - 10)"> </div>
+            <div id="button"> <button id="bb" state="off">BUILD SCHEDULE</button></div>
+        </div>
+<br>
+        <div>
+            <div class="dot" id="green"></div>
+            <div class="dot" id="red"></div>
+            <div class="dot" id="blue"></div>
+            <div class="dot" id="default"></div>
+        </div>
 
+        <div id="cards">
             <section class="card_list" id="card_list"></section>
+        </div>
 
     </body>
 
